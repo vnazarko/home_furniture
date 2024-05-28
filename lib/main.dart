@@ -12,12 +12,12 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const Scaffold(
-        body: HomePage(),
-      ),
+      
+
+      home: const HomePage(),
       routes: {
         '/home': (context) => const HomePage(),
-        '/catalog': (context) => const CatalogPage(),
+        '/catalog': (context) => CatalogPage(),
       }
     );
   }

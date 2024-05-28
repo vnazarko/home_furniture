@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_svg:
 
 dev_dependencies:
   flutter_test:
@@ -19,6 +20,12 @@ flutter:
   uses-material-design: true
   assets:
     - assets/img/bg2.png
+    - assets/img/sofa.png
+    - assets/img/lamp.png
+    - assets/img/tv.png
+    - assets/img/sofa-selected.png
+    - assets/img/tv-selected.png  
+    - assets/img/lamp-selected.png
   fonts:
     - family: Hauora
       fonts:
