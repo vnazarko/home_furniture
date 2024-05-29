@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:home_furniture/models/user_model.dart';
-import 'package:home_furniture/pages/catalog.dart';
 import 'package:home_furniture/pages/home.dart';
+import 'package:home_furniture/pages/main_page.dart';
 import 'package:home_furniture/pages/product.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +25,7 @@ class MainApp extends StatelessWidget {
       home: const HomePage(),
       routes: {
         '/home': (context) => const HomePage(),
-        '/catalog': (context) => const CatalogPage(),
+        '/main': (context) => const MainPage(),
         '/product': (context) => const ProductPage(),
       }
     );

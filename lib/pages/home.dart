@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       padding: const EdgeInsets.only(right: 20, bottom: 20),
                       child: IconButton.filled(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/catalog');
+                          Navigator.pushNamed(context, '/main');
                         }, 
                         icon: const Icon(Icons.chevron_right_rounded, color: Color.fromRGBO(255, 255, 255, 1), weight: 1.0,),
                         style: ButtonStyle(

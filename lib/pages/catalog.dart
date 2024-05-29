@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:home_furniture/components/buttons.dart';
 import 'package:home_furniture/http.dart';
 import 'package:home_furniture/models/user_model.dart';
