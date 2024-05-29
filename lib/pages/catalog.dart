@@ -1,6 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:home_furniture/http.dart';
+import 'package:home_furniture/models/user_model.dart';
+import 'package:provider/provider.dart';
 
 
 class CatalogPage extends StatefulWidget {
@@ -188,6 +191,10 @@ class ProductComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserModel>(context);
+
+    bool isFavorite = user.favorites.contains(product['id']);
+
     return Container(
       alignment: Alignment.centerLeft,
       padding: const EdgeInsets.all(8.0),
@@ -218,12 +225,26 @@ class ProductComponent extends StatelessWidget {
                   width: 117.0,
                   height: 117.0,
                 ),
-                const Positioned(
+                Positioned(
                   left: 112,
                   top: 30,
-                  child: IconButton(
-                    onPressed: null,
-                    icon: Icon(Icons.favorite_border, color: Colors.black),
+                  child: AnimatedCrossFade(
+                    firstChild: IconButton(
+                      onPressed: () {
+                        user.addOrRemoveInFavorites(product['id']);
+                      },
+                      icon:const Icon(Icons.favorite, color: Color.fromRGBO(121, 147, 174, 1)),
+                      splashColor: Colors.transparent,
+                    ),
+                    secondChild: IconButton(
+                      onPressed: () {
+                        user.addOrRemoveInFavorites(product['id']);
+                      },
+                      icon:const Icon(Icons.favorite_border, color: Color.fromRGBO(0, 0, 0, 1)),
+                      splashColor: Colors.transparent,
+                    ),
+                    crossFadeState: !isFavorite ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                    duration: const Duration(milliseconds: 200),
                   ),
                 ),
               ],
@@ -272,12 +293,25 @@ class ProductComponent extends StatelessWidget {
               Expanded(
                 child: Container(),
               ),
-              const IconButton.filled(
-                onPressed: null, 
-                icon: Icon(Icons.add, color: Colors.white),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(121, 147, 174, 1))
+              AnimatedCrossFade(
+                firstChild: IconButton.filled(
+                  onPressed: () {
+                    user.addOrRemoveInCart(product['id']);
+                  }, 
+                  icon: const Icon(Icons.remove, color: Colors.white),
+                  style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(121, 147, 174, 1))
+                  ),
                 ),
+                secondChild: IconButton.outlined(
+                  onPressed: () {
+                    user.addOrRemoveInCart(product['id']);
+                  }, 
+                  icon: const Icon(Icons.add, color: Colors.black),
+                  
+                ),
+                duration: Duration(milliseconds: 200),
+                crossFadeState: !user.cart.contains(product['id']) ? CrossFadeState.showSecond : CrossFadeState.showFirst,
               )
             ],
           )
