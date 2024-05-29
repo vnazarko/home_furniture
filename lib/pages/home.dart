@@ -1,9 +1,8 @@
 
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 
 
 class HomePage extends StatefulWidget {
@@ -21,7 +20,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   late final Animation<Offset> _offsetAnimation = Tween<Offset>(
     begin: const Offset(-1.0, 0.0),
-    end: Offset.zero,
+    end: const Offset(0.1, 0.0),
   ).animate(CurvedAnimation(
     parent: _controller,
     curve: Curves.easeOut,
@@ -80,7 +79,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         "Find the best home furniture for your room.",
                         style: TextStyle(
                           color: Color.fromRGBO(255, 255, 255, 1),
-                          fontSize: 29.0,
+                          fontSize: 28.0,
                           fontFamily: 'Hauora'
                         ),
                       ),
