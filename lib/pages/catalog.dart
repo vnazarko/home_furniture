@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:home_furniture/components/buttons.dart';
 import 'package:home_furniture/http.dart';
 import 'package:home_furniture/models/user_model.dart';
 import 'package:provider/provider.dart';
@@ -193,133 +194,102 @@ class ProductComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<UserModel>(context);
 
-    bool isFavorite = user.favorites.contains(product['id']);
-
-    return Container(
-      alignment: Alignment.centerLeft,
-      padding: const EdgeInsets.all(8.0),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(15.0)),
-        boxShadow: [
-          BoxShadow(
-            color: Color.fromRGBO(0, 0, 0, 0.1),
-            spreadRadius: 1.0,
-            blurRadius: 10.0,
-            offset: Offset(0.0, 0.1),
-          ),
-        ]
-      ),
-      width: 162.0,
-      height: 251.0,
-      margin: const EdgeInsets.only(bottom: 20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 160.0,
-            child: Stack(
-              children: [
-                Image.network(
-                  product['img'],
-                  width: 117.0,
-                  height: 117.0,
-                ),
-                Positioned(
-                  left: 112,
-                  top: 30,
-                  child: AnimatedCrossFade(
-                    firstChild: IconButton(
-                      onPressed: () {
-                        user.addOrRemoveInFavorites(product['id']);
-                      },
-                      icon:const Icon(Icons.favorite, color: Color.fromRGBO(121, 147, 174, 1)),
-                      splashColor: Colors.transparent,
-                    ),
-                    secondChild: IconButton(
-                      onPressed: () {
-                        user.addOrRemoveInFavorites(product['id']);
-                      },
-                      icon:const Icon(Icons.favorite_border, color: Color.fromRGBO(0, 0, 0, 1)),
-                      splashColor: Colors.transparent,
-                    ),
-                    crossFadeState: !isFavorite ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-                    duration: const Duration(milliseconds: 200),
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, '/product', arguments: product);
+      },
+      child: Container(
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.all(8.0),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          boxShadow: [
+            BoxShadow(
+              color: Color.fromRGBO(0, 0, 0, 0.1),
+              spreadRadius: 1.0,
+              blurRadius: 10.0,
+              offset: Offset(0.0, 0.1),
+            ),
+          ]
+        ),
+        width: 162.0,
+        height: 251.0,
+        margin: const EdgeInsets.only(bottom: 20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 160.0,
+              child: Stack(
+                children: [
+                  Image.network(
+                    product['img'],
+                    width: 117.0,
+                    height: 117.0,
                   ),
+                  Positioned(
+                    left: 112,
+                    top: 30,
+                    child: FavoriteButton(user: user, product: product),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 11.0),
+              child: Text(
+                product['name'],
+                style: const TextStyle(
+                  color: Color.fromRGBO(0, 0, 0, 1),
+                  fontSize: 16.0,
+                  fontFamily: 'Hauora'
                 ),
+                textAlign: TextAlign.left,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                for (String color in product['colors'])
+                  Row(
+                    children: [
+                      Container(
+                        width: 15.0,
+                        height: 15.0,
+                        decoration: BoxDecoration(
+                          color: Color(int.tryParse(color)!),
+                          borderRadius: BorderRadius.circular(50.0)
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 4.0,
+                      )
+                    ],
+                  )
               ],
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 11.0),
-            child: Text(
-              product['name'],
-              style: const TextStyle(
-                color: Color.fromRGBO(0, 0, 0, 1),
-                fontSize: 16.0,
-                fontFamily: 'Hauora'
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: [
-              for (String color in product['colors'])
-                Row(
-                  children: [
-                    Container(
-                      width: 15.0,
-                      height: 15.0,
-                      decoration: BoxDecoration(
-                        color: Color(int.tryParse(color)!),
-                        borderRadius: BorderRadius.circular(50.0)
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 4.0,
-                    )
-                  ],
-                )
-            ],
-          ),
-          Row(
-            children: [
-              Text(
-                '¥${product['price']}'
-              ),
-              Expanded(
-                child: Container(),
-              ),
-              AnimatedCrossFade(
-                firstChild: IconButton.filled(
-                  onPressed: () {
-                    user.addOrRemoveInCart(product['id']);
-                  }, 
-                  icon: const Icon(Icons.remove, color: Colors.white),
-                  style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Color.fromRGBO(121, 147, 174, 1))
-                  ),
+            Row(
+              children: [
+                Text(
+                  '¥${product['price']}'
                 ),
-                secondChild: IconButton.outlined(
-                  onPressed: () {
-                    user.addOrRemoveInCart(product['id']);
-                  }, 
-                  icon: const Icon(Icons.add, color: Colors.black),
-                  
+                Expanded(
+                  child: Container(),
                 ),
-                duration: Duration(milliseconds: 200),
-                crossFadeState: !user.cart.contains(product['id']) ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-              )
-            ],
-          )
-        ],
+                CartButton(user: user, product: product)
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
 }
+
+
 
 class MyCustomScrollBehavior extends ScrollBehavior {
   @override

@@ -31,3 +31,6 @@ flutter:
     - family: Hauora
       fonts:
         - asset: assets/fonts/Hauora-SemiBold.ttf
+    - family: SF Pro Display
+      fonts:
+        - asset: assets/fonts/SF-Pro-Display-Regular.ttf
