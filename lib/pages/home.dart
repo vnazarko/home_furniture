@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 
 
@@ -13,30 +14,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(milliseconds: 800),
-    vsync: this,
-  )..repeat(reverse: false);
-
-  late final Animation<Offset> _offsetAnimation = Tween<Offset>(
-    begin: const Offset(-1.0, 0.0),
-    end: const Offset(0.1, 0.0),
-  ).animate(CurvedAnimation(
-    parent: _controller,
-    curve: Curves.easeOut,
-  ));
-
-
-  double _opacityLevel = 0.0;
+  double _opacityLevelButton = 0.0;
+  double _opacityLevelText = 0.0;
 
   void _changeOpacity() {
-    setState(() => _opacityLevel = 1.0);
+    setState(() => _opacityLevelButton = 1.0);
+    setState(() => _opacityLevelText = 1.0);
   }
   
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
   }
 
@@ -44,7 +32,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
 
     void _stopAnimation() {
-       _controller.stop();
       _changeOpacity();
     }
 
@@ -70,8 +57,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               ),
               child: Stack( 
                 children: [
-                  SlideTransition(
-                    position: _offsetAnimation,
+                  AnimatedOpacity(
+                    opacity: _opacityLevelText,
+                    duration: const Duration(milliseconds: 600),
                     child: Container(
                       alignment: Alignment.topLeft,
                       padding: EdgeInsets.only(top: (MediaQuery.of(context).size.height - 150)),
@@ -86,7 +74,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     ),
                   ),
                   AnimatedOpacity(
-                    opacity: _opacityLevel,
+                    opacity: _opacityLevelButton,
                     duration: const Duration(seconds: 1),
                     child: Container(
                       alignment: Alignment.bottomRight,
